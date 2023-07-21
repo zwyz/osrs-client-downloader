@@ -14,6 +14,7 @@ import java.util.zip.GZIPInputStream;
 
 public class Main {
     private static final Path OUTPUT_PATH = Path.of("result");
+    private static final boolean SKIP_DOWNLOAD = false;
 
     private static final List<Repository> REPOSITORIES = List.of(
             buildRepositoryInfo("win"),
@@ -31,7 +32,11 @@ public class Main {
             for (var entry : versionData.getEnvironments().entrySet()) {
                 var name = entry.getKey();
                 ids.add(entry.getValue().getId());
-                System.out.println("  " + name + " -> " + entry.getValue().getId());
+                System.out.println("  " + name + " -> version = " + entry.getValue().getVersion() + ", id = " + entry.getValue().getId());
+            }
+
+            if (SKIP_DOWNLOAD) {
+                continue;
             }
 
             for (var id : ids) {
